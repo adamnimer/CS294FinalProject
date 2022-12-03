@@ -140,17 +140,14 @@ function navigation(){
 
 
 function weather(){
-  console.log("weather bitches")
+  console.log("weather")
   var gradesScreen = document.getElementById("grades");
   gradesScreen.innerHTML = '';
 
-
-  
-
-
-
-  
+  var weather = document.getElementById("weather");
+  weather.style.display = "block";  // <-- Set it to block
 }
+  
 
 
 
