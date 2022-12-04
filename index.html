@@ -3,7 +3,7 @@
    <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>UIC Grade Distribution</title>
+      <title>CS294 Final Project</title>
       <link href="style.css" rel="stylesheet" type="text/css" />
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
@@ -16,12 +16,29 @@
    </head>
    <body>
 
+     
 
 <div class="mdc-tab-bar" role="tablist">
   <div class="mdc-tab-scroller">
     <div class="mdc-tab-scroller__scroll-area">
       <div class="mdc-tab-scroller__scroll-content">
-        <button class="mdc-tab mdc-tab--active" role="tab" aria-selected="true" tabindex="0">
+        
+        
+        <button onclick="home()" class="mdc-tab mdc-tab--active" role="tab" aria-selected="true" tabindex="0">
+          <span class="mdc-tab__content">
+            <span class="mdc-tab__icon material-icons" aria-hidden="true">favorite</span>
+            <span class="mdc-tab__text-label">Home</span>
+          </span>
+          <span class="mdc-tab-indicator mdc-tab-indicator--active">
+            <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+          </span>
+          <span class="mdc-tab__ripple"></span>
+          <div class="mdc-tab__focus-ring"></div>
+        </button>        
+        
+        
+        
+        <button onclick="grades()" class="mdc-tab mdc-tab--active" role="tab" aria-selected="true" tabindex="0">
           <span class="mdc-tab__content">
             <span class="mdc-tab__icon material-icons" aria-hidden="true">favorite</span>
             <span class="mdc-tab__text-label">Grades</span>
@@ -33,12 +50,11 @@
           <div class="mdc-tab__focus-ring"></div>
         </button>
         
-      </div>
 
       <button onclick="weather()" class="mdc-tab mdc-tab--active" role="tab" aria-selected="true" tabindex="0">
           <span class="mdc-tab__content">
             <span class="mdc-tab__icon material-icons" aria-hidden="true">favorite</span>
-            <span class="mdc-tab__text-label">Favorites</span>
+            <span class="mdc-tab__text-label">Weather</span>
           </span>
           <span class="mdc-tab-indicator mdc-tab-indicator--active">
             <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
@@ -46,19 +62,95 @@
           <span class="mdc-tab__ripple"></span>
           <div class="mdc-tab__focus-ring"></div>
         </button>
+
+        
+        <button onclick="storedData()" class="mdc-tab mdc-tab--active" role="tab" aria-selected="true" tabindex="0">
+          <span class="mdc-tab__content">
+            <span class="mdc-tab__icon material-icons" aria-hidden="true">favorite</span>
+            <span class="mdc-tab__text-label">Stored Data</span>
+          </span>
+          <span class="mdc-tab-indicator mdc-tab-indicator--active">
+            <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+          </span>
+          <span class="mdc-tab__ripple"></span>
+          <div class="mdc-tab__focus-ring"></div>
+        </button>
+
+
+
+      </div>
     </div>
   </div>
 
   
 </div>
+     
 
       <script src="script.js"></script>
+      
+     <script type="text/javascript">
+    window.onload = function () { 
+
+        home();
+    }
+</script>
+
+
+
+
+  <div id="home" class="home">
+<header class="mdc-top-app-bar" style="background-color: #09adc3">
+  <div class="mdc-top-app-bar__row">
+    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+      
+      
+      <button onclick="navigation()" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" aria-label="Open navigation menu">menu</button>
+      <span class="mdc-top-app-bar__title">Home</span>
+    </section>
+    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+      <button  onclick="heart()" class="material-icons mdc-top-app-bar__action-item mdc-icon-button" id="heart" aria-label="Favorite">favorite</button>
+<!--       <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Search">search</button> -->
+<!--       <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Options">more_vert</button> -->
+    </section>
+  </div>
+</header>
+<main class="mdc-top-app-bar--fixed-adjust">
+</main>
+
+
+    
+    Use the above tabs to go to your desired page.
+
+    
+  </div>
+
+
+
+
+
+
+
+
 
 
 
      
 
-     <div id="grades">
+     
+
+
+
+
+
+
+
+
+
+     
+     
+
+     <div id="grades" class="grades">
+       
 <header class="mdc-top-app-bar" style="background-color: #09adc3">
   <div class="mdc-top-app-bar__row">
     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
@@ -80,16 +172,8 @@
       </br>
       </br>
 
-
-
-
-     
       <div class="screen">
-        
-<!--          <div class="directions">
-            <h3>Enter your desired subject abbreviation, course number, and semester. The format looks like this: 'MATH' '210' 'SP22'. </h3>
-         </div> -->
-
+      
 
     <!-- Directions -->
     <figure>
@@ -102,14 +186,7 @@
          </br>
          </br>
          </br>
-         <!--     <div class="form">
-            Subject <input class="input" type="text" placeholder="Ex: CS" id="subject" value="math"> 
-            Course Number <input class="input" type="text" placeholder="Ex: 341" value="210" id="course_num"> 
-            Semester <input class="input" type="text" placeholder="Ex: SP08" id="semester" value="sp22">
-            
-            <button onclick="search()" class="button" style="vertical-align:middle" ><span>Search</span></button>
-            </br>   </br>   </br>   </br>
-              </div> -->
+
 
           <!-- Subject button -->
          <div class="form-floating">
@@ -173,13 +250,100 @@
 </div>
 
 
-<div id="weather" style="display:none">
-  <h1>hello</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+<div id="weather" class="weather">
+
+<header class="mdc-top-app-bar" style="background-color: #09adc3">
+  <div class="mdc-top-app-bar__row">
+    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+      
+      
+      <button onclick="navigation()" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" aria-label="Open navigation menu">menu</button>
+      <span class="mdc-top-app-bar__title">Weather</span>
+    </section>
+    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+      <button  onclick="heart()" class="material-icons mdc-top-app-bar__action-item mdc-icon-button" id="heart" aria-label="Favorite">favorite</button>
+<!--       <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Search">search</button> -->
+<!--       <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Options">more_vert</button> -->
+    </section>
+  </div>
+</header>
+<main class="mdc-top-app-bar--fixed-adjust">
+</main>
+
+
+  
+  <h1>weather</h1>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      
 
+<div id="storedData" class="storedData">
 
+<header class="mdc-top-app-bar" style="background-color: #09adc3">
+  <div class="mdc-top-app-bar__row">
+    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+      
+      
+      <button onclick="navigation()" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" aria-label="Open navigation menu">menu</button>
+      <span class="mdc-top-app-bar__title">Data</span>
+    </section>
+    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+      <button  onclick="heart()" class="material-icons mdc-top-app-bar__action-item mdc-icon-button" id="heart" aria-label="Favorite">favorite</button>
+<!--       <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Search">search</button> -->
+<!--       <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Options">more_vert</button> -->
+    </section>
+  </div>
+</header>
+<main class="mdc-top-app-bar--fixed-adjust">
+</main>
+
+
+
+
+  
+  <h1>data</h1>
+</div>
 
      
      

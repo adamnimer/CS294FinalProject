@@ -1,25 +1,33 @@
+
+
 let count = 0;
 google.charts.load("current", {packages:["corechart"]});
 
-function search() {
 
-  //condition makes sure it is not first search (nothing to clear if there is no previous search)
-  if (count > 0){
-    const removeDiv = document.querySelectorAll('.box');
-    const removeTitle = document.querySelectorAll('.title')
+function clear(){
+    const removeDiv = document.querySelectorAll('.mdc-deprecated-list-item');
+    const removeTitle = document.querySelectorAll('.mdc-typography--headline6')
     // const removeCurrClass = document.querySelectorAll('.currClass')
     
-    removeDiv.forEach(box => {
-      box.remove();
+    removeDiv.forEach(element => {
+      element.remove();
     });
 
-    removeTitle.forEach(box => {
-      box.remove();
+    removeTitle.forEach(element => {
+      element.remove();
     });
     
     // removeCurrClass.forEach(box => {
     //   box.remove();
     // });
+  
+}
+
+function search() {
+
+  //condition makes sure it is not first search (nothing to clear if there is no previous search)
+  if (count > 0){
+    clear();
     
   }
   count++; // searches counter
@@ -139,15 +147,72 @@ function navigation(){
 }
 
 
-function weather(){
-  console.log("weather")
-  var gradesScreen = document.getElementById("grades");
-  gradesScreen.innerHTML = '';
 
-  var weather = document.getElementById("weather");
-  weather.style.display = "block";  // <-- Set it to block
+
+// function getWeatherData(){
+//       let link = "https://api.weather.gov/gridpoints/LOT/75,72/forecast";
+
+//     fetch(link)
+//       .then((response) => {
+//         return response.json()
+//             })
+      
+//       .then ((data) => {
+//         data.properties.periods.forEach((period) => {
+//         let theDiv = document.createElement("div");
+//         document.body.append(theDiv);
+          
+//         theDiv.innerHTML = period.name + "<br>" + period.detailedForecast;
+//         var img = document.createElement("IMG");
+//         img.setAttribute("src", period.icon);
+//         document.body.appendChild(img);
+//         })
+//       })}
+
+
+
+function home(){
+  console.log("home")
+  clear();
+  var weather = document.getElementById("weather").hidden = true;
+    var data = document.getElementById("storedData").hidden = true;
+  var grades = document.getElementById("grades").hidden= true;
+    var home = document.getElementById("home").hidden = false;
+  
+}
+
+
+function grades(){
+  console.log("grades")
+  var home = document.getElementById("home").hidden = true;
+  var weather = document.getElementById("weather").hidden = true;
+  var data = document.getElementById("storedData").hidden = true;
+  var grades = document.getElementById("grades").hidden= false;
+  
+}
+
+
+function weather(){
+  clear();
+  console.log("weather")
+  var home = document.getElementById("home").hidden = true;
+  var gradesScreen = document.getElementById("grades").hidden = true;
+  var data = document.getElementById("storedData").hidden = true;
+  // getWeatherData();
+  var weather = document.getElementById("weather").hidden = false;
+  
+
 }
   
+
+function storedData(){
+  clear();
+  console.log("data")
+  var home = document.getElementById("home").hidden = true;
+  var weather = document.getElementById("weather").hidden = true;
+  var grades = document.getElementById("grades").hidden= true;
+  var data = document.getElementById("storedData").hidden = false;
+}
 
 
 
