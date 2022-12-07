@@ -127,3 +127,11 @@ word-wrap: break-word;
   padding-bottom: 10px;
   
 }
+
+
+.mdc-tab mdc-tab--active {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+}

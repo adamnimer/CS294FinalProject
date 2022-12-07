@@ -147,33 +147,61 @@ function navigation(){
 }
 
 
+function clearWeather(){
+  const removeIMG = document.querySelectorAll('.weatherImg')
+  const removeDiv = document.querySelectorAll('.mdc-typography--headline6')
+  const removeBR = document.querySelectorAll('.lineBreaks')
+    // const removeCurrClass = document.querySelectorAll('.currClass')
+    
+    removeIMG.forEach(element => {
+      element.remove();
+    });
+  
+    removeDiv.forEach(element => {
+      element.remove();
+    });
 
+    removeBR.forEach(element => {
+    element.remove();
+  });
 
-// function getWeatherData(){
-//       let link = "https://api.weather.gov/gridpoints/LOT/75,72/forecast";
+  
+}
 
-//     fetch(link)
-//       .then((response) => {
-//         return response.json()
-//             })
+function getWeatherData(){
+  clearWeather();
+      let link = "https://api.weather.gov/gridpoints/LOT/75,72/forecast";
+
+    fetch(link)
+      .then((response) => {
+        return response.json()
+            })
       
-//       .then ((data) => {
-//         data.properties.periods.forEach((period) => {
-//         let theDiv = document.createElement("div");
-//         document.body.append(theDiv);
+      .then ((data) => {
+        data.properties.periods.forEach((period) => {
+        let theDiv = document.createElement("div");
+        theDiv.setAttribute("class", "mdc-typography--headline6");
+        document.body.append(theDiv);
           
-//         theDiv.innerHTML = period.name + "<br>" + period.detailedForecast;
-//         var img = document.createElement("IMG");
-//         img.setAttribute("src", period.icon);
-//         document.body.appendChild(img);
-//         })
-//       })}
+        theDiv.innerHTML = period.name + "<br>" + period.detailedForecast;
+        var img = document.createElement("IMG");
+        img.setAttribute("src", period.icon);
+        img.setAttribute("class", "weatherImg");
+        document.body.appendChild(img);
+        let lineBreaks = document.createElement("div");
+        lineBreaks.setAttribute("class", "lineBreaks");
+        document.body.append(lineBreaks);
+        lineBreaks.innerHTML += "<br>" + "<br>";
+        })
+      })}
 
 
 
 function home(){
   console.log("home")
-  clear();
+  clear(); //clears any grade data
+  clearWeather();
+  //hide and show respective pages
   var weather = document.getElementById("weather").hidden = true;
     var data = document.getElementById("storedData").hidden = true;
   var grades = document.getElementById("grades").hidden= true;
@@ -184,6 +212,7 @@ function home(){
 
 function grades(){
   console.log("grades")
+  clearWeather();
   var home = document.getElementById("home").hidden = true;
   var weather = document.getElementById("weather").hidden = true;
   var data = document.getElementById("storedData").hidden = true;
@@ -193,12 +222,13 @@ function grades(){
 
 
 function weather(){
-  clear();
+  clear(); //clears any grade data
+  //hide and show respective pages
   console.log("weather")
   var home = document.getElementById("home").hidden = true;
   var gradesScreen = document.getElementById("grades").hidden = true;
   var data = document.getElementById("storedData").hidden = true;
-  // getWeatherData();
+  getWeatherData();
   var weather = document.getElementById("weather").hidden = false;
   
 
@@ -206,7 +236,9 @@ function weather(){
   
 
 function storedData(){
-  clear();
+  clear(); //clears any grade data
+  clearWeather();
+  //hide and show respective pages
   console.log("data")
   var home = document.getElementById("home").hidden = true;
   var weather = document.getElementById("weather").hidden = true;
