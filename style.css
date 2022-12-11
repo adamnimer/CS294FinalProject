@@ -135,3 +135,17 @@ word-wrap: break-word;
   top: 0;
   left: 0;
 }
+
+.dataStore {
+  text-align:center;
+}
+
+
+.storedData {
+  text-align:center;
+}
+
+.home {
+  text-align:center;
+}
+

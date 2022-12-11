@@ -1,8 +1,25 @@
-
-
 let count = 0;
+let countDBID = 1;
 google.charts.load("current", {packages:["corechart"]});
 
+function saveData(data1, data2, data3) {
+    var dbPromise = indexedDB.open('my_database', 1);
+    
+    dbPromise.onupgradeneeded = function(event) {
+        var db = event.target.result;
+        
+        var objectStore = db.createObjectStore('data', {keyPath: 'id'});
+    };
+    
+    dbPromise.onsuccess = function(event) {
+        var db = event.target.result;
+        
+        var dataStore = db.transaction('data', 'readwrite').objectStore('data');
+        
+        dataStore.add({id: countDBID, subject: data1, courseNumber: data2, semester: data3});
+      countDBID++;
+    };
+}
 
 function clear(){
     const removeDiv = document.querySelectorAll('.mdc-deprecated-list-item');
@@ -37,17 +54,46 @@ function search() {
   let courseNum = document.getElementById("course_num").value;
   let semester = document.getElementById("semester").value;
   let theSemester;
+  let notValid = false;
   // let currentClass = document.createElement("div");
   // currentClass.setAttribute("class", "currClass");
   
 
+  //checks whether course number is invalid
+  if(courseNum.length > 3){
+    notValid = true;
+  }
+  else if(isNaN(courseNum) == true){
+    notValid = true;
+  }
+  
+
+  //checks if semester is 4 characters.
+  if(semester.length != 4){
+    notValid = true;
+  }
   //Get semester name to output for title
-  if(semester[0].toUpperCase() == "F") 
+  else if(semester[0].toUpperCase() == "F") 
     theSemester = "Fall";
   else if(semester[0].toUpperCase() == "S" && semester[1].toUpperCase() == "P")
     theSemester = "Spring";
-  else{theSemester = "Summer";}
+  else if(semester[0].toUpperCase() == "S" && semester[1].toUpperCase() == "U") {
+    theSemester = "Summer";
+  }
+  else{
+    notValid = true;
+  }
 
+
+  if(notValid == true){
+    console.log("NOT A VALID SEARCH");
+    let notValidMessage = document.createElement("div");
+    notValidMessage.setAttribute("class", "mdc-typography--headline6");
+    document.body.append(notValidMessage);
+    notValidMessage.innerHTML += "NOT A VALID SEARCH, TRY AGAIN.";
+    return;
+  }
+  saveData(subj, courseNum, semester);
   //Get year for title
   let theYear = "20" + semester[2] + semester[3];
 
@@ -197,10 +243,55 @@ function getWeatherData(){
 
 
 
+function storedDataDisplay(){
+  // Open a connection to the indexedDB
+  var request = indexedDB.open('my_database');
+  
+  // Get a reference to the IDBDatabase object
+  request.onsuccess = function(event) {
+    var db = event.target.result;
+  
+    // Create a transaction to access the data
+    var transaction = db.transaction(['data']);
+  
+    // Get a reference to the IDBObjectStore
+    var objectStore = transaction.objectStore('data');
+  
+    // Retrieve the data
+var request = objectStore.getAll();
+    
+    // Loop through the data and add it to the div element
+    request.onsuccess = function(event) {
+      var data = event.target.result;
+      data.forEach(function(item) {
+        var div = document.createElement('div');
+        div.setAttribute("class", "dataStore");
+        div.innerHTML = item.subject + ' - ' + item.courseNumber + ' - ' + item.semester;
+        document.body.appendChild(div);
+      });
+    }
+  };
+}
+
+
+function clearStoredData(){
+  const removeDiv = document.querySelectorAll('.dataStore')
+    // const removeCurrClass = document.querySelectorAll('.currClass')
+    
+    removeDiv.forEach(element => {
+      element.remove();
+    });
+  
+  
+}
+
+
+
 function home(){
   console.log("home")
   clear(); //clears any grade data
   clearWeather();
+  clearStoredData();
   //hide and show respective pages
   var weather = document.getElementById("weather").hidden = true;
     var data = document.getElementById("storedData").hidden = true;
@@ -210,9 +301,11 @@ function home(){
 }
 
 
+
 function grades(){
   console.log("grades")
   clearWeather();
+  clearStoredData();
   var home = document.getElementById("home").hidden = true;
   var weather = document.getElementById("weather").hidden = true;
   var data = document.getElementById("storedData").hidden = true;
@@ -224,6 +317,7 @@ function grades(){
 function weather(){
   clear(); //clears any grade data
   //hide and show respective pages
+  clearStoredData();
   console.log("weather")
   var home = document.getElementById("home").hidden = true;
   var gradesScreen = document.getElementById("grades").hidden = true;
@@ -238,6 +332,8 @@ function weather(){
 function storedData(){
   clear(); //clears any grade data
   clearWeather();
+  clearStoredData();
+  storedDataDisplay();
   //hide and show respective pages
   console.log("data")
   var home = document.getElementById("home").hidden = true;
