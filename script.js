@@ -3,21 +3,29 @@ let countDBID = 1;
 google.charts.load("current", {packages:["corechart"]});
 
 function saveData(data1, data2, data3) {
-    var dbPromise = indexedDB.open('my_database', 1);
-    
+    var dbPromise = indexedDB.open('my_database', 2);
+
     dbPromise.onupgradeneeded = function(event) {
         var db = event.target.result;
-        
-        var objectStore = db.createObjectStore('data', {keyPath: 'id'});
+
+        // Create the 'data' object store if it doesn't already exist.
+        if (!db.objectStoreNames.contains('data')) {
+            var objectStore = db.createObjectStore('data', {keyPath: 'id'});
+        }
     };
-    
+
     dbPromise.onsuccess = function(event) {
         var db = event.target.result;
-        
-        var dataStore = db.transaction('data', 'readwrite').objectStore('data');
-        
+
+        var transaction = db.transaction(['data'], 'readwrite');
+        var dataStore = transaction.objectStore('data');
+
         dataStore.add({id: countDBID, subject: data1, courseNumber: data2, semester: data3});
-      countDBID++;
+        countDBID++;
+
+        transaction.oncomplete = function() {
+            console.log("Data saved successfully.");
+        };
     };
 }
 
@@ -252,26 +260,27 @@ function storedDataDisplay(){
     var db = event.target.result;
   
     // Create a transaction to access the data
-    var transaction = db.transaction(['data']);
+      var transaction = db.transaction(['data'], 'readonly');
+
+  // Get a reference to the IDBObjectStore
+  var dataStore = transaction.objectStore('data');
   
-    // Get a reference to the IDBObjectStore
-    var objectStore = transaction.objectStore('data');
-  
-    // Retrieve the data
-var request = objectStore.getAll();
-    
-    // Loop through the data and add it to the div element
-    request.onsuccess = function(event) {
-      var data = event.target.result;
-      data.forEach(function(item) {
-        var div = document.createElement('div');
-        div.setAttribute("class", "dataStore");
-        div.innerHTML = item.subject + ' - ' + item.courseNumber + ' - ' + item.semester;
-        document.body.appendChild(div);
-      });
-    }
-  };
-}
+  // Retrieve the data
+  var request = dataStore.getAll();
+
+  // Loop through the data and add it to the page
+  request.onsuccess = function(event) {
+    console.log('Successfully retrieved data from indexedDB');
+    var data = event.target.result;
+    data.forEach(function(item) {
+      var div = document.createElement('div');
+      div.setAttribute("class", "dataStore");
+      div.innerHTML += item.subject + ' - ' + item.courseNumber + ' - ' + item.semester;
+      document.body.appendChild(div);
+        });
+      }
+    };
+  }
 
 
 function clearStoredData(){
@@ -332,7 +341,7 @@ function weather(){
 function storedData(){
   clear(); //clears any grade data
   clearWeather();
-  clearStoredData();
+  if(countDBID > 1)
   storedDataDisplay();
   //hide and show respective pages
   console.log("data")
